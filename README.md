@@ -1,6 +1,6 @@
 # Deno.BoltDoggy.com
 
-Some module for [Deno](https://deno.land/).
+Some modules for [Deno](https://deno.land/).
 
 - dpm - deno package manager, install global command for deno.
 - dcc - deno cache clean, reloading deps when next running.
