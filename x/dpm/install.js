@@ -4,7 +4,7 @@ const ENV = env();
 
 const encoder = new TextEncoder();
 const data = encoder.encode(`#!/bin/sh
-deno https://deno.boltdoggy.com/x/dvm/dvm.js
+deno https://deno.boltdoggy.com/x/dpm/mod.js "$@"
 `);
 
 const dvmFilePath = `${ENV.HOME}/.deno/bin/dvm`;
