@@ -23,3 +23,25 @@ req.respond({ body: new TextEncoder().encode("Hello Doggy!") });
 ```
 
 visit `http://127.0.0.1:8000/xxx`, you will got `Hello Doggy!`;
+
+## config
+
+based on https://github.com/pietvanzoen/deno-dotenv.
+
+Setup a .env file in the root of your project.
+
+```
+# .env
+GREETING=hello world
+```
+
+```
+# xxx.ts
+console.log(config());
+```
+
+then visit `http://127.0.0.1:8000/xxx`, console will show
+
+```
+{ GREETING: "hello world" }
+```
