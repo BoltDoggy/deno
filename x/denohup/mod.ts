@@ -1,4 +1,4 @@
-import { run, env, args, writeFileSync, removeSync, readFileSync } from "deno";
+import { run, env, args, writeFileSync, removeSync, readFileSync, exit } from "deno";
 import { parse } from "https://deno.land/x/flags/mod.ts";
 // import { config } from "https://deno.land/x/dotenv/dotenv.ts";
 
@@ -42,8 +42,18 @@ const runner = {
             console.log('启动成功');
             this.ls();
 
-            process.status().then(() => {
-                this.start();
+            process.status().then((status) => {
+                if (status.success) {
+                    removeSync('./pid.json');
+                    console.log('运行结束, 进程守护停止');
+                    exit();
+                } else if (status) {
+                    console.log('手动退出, 进程守护重启');
+                    this.start();
+                } else {
+                    console.log('异常退出, 进程守护重启');
+                    this.start();
+                }
             });
         } else {
             if (pidJSON.ridWatchmen) {
@@ -91,8 +101,23 @@ const runner = {
         }
     },
     restart() {
-        this.stop();
-        this.start();
+        let pidJSON: any = {};
+        try {
+            const data = readFileSync('./pid.json');
+            const pidJSONString = decoder.decode(data);
+            pidJSON = JSON.parse(pidJSONString)
+        } catch (error) {
+
+        }
+        run({
+            args: ['kill', '-9', `${pidJSON.pid}`]
+        });
+        const data = encoder.encode(JSON.stringify({
+            ...pidJSON,
+            rid: undefined,
+            pid: undefined,
+        }));
+        writeFileSync('pid.json', data);
     }
 };
 
