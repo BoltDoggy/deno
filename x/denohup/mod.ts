@@ -109,15 +109,15 @@ const runner = {
         } catch (error) {
 
         }
-        run({
-            args: ['kill', '-9', `${pidJSON.pid}`]
-        });
         const data = encoder.encode(JSON.stringify({
             ...pidJSON,
             rid: undefined,
             pid: undefined,
         }));
         writeFileSync('pid.json', data);
+        run({
+            args: ['kill', '-9', `${pidJSON.pid}`]
+        });
     }
 };
 
