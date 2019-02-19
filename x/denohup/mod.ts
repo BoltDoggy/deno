@@ -47,12 +47,12 @@ const runner = {
                     removeSync('./pid.json');
                     console.log('运行结束, 进程守护停止');
                     exit();
-                } else if (status) {
+                } else if (status.signal === 9) {
                     console.log('手动退出, 进程守护重启');
-                    this.start();
+                    this.restart(1);
                 } else {
                     console.log('异常退出, 进程守护重启');
-                    this.start();
+                    this.restart(1);
                 }
             });
         } else {
@@ -61,7 +61,7 @@ const runner = {
                 return false;
             }
             const process = run({
-                args: ['deno', '-A', 'https://deno.boltdoggy.com/x/denohup/mod.ts', 'start', '--forever', 'true', ...argsParsed._],
+                args: ['deno', '-A', '/Volumes/coding/Bolt/deno/x/denohup/mod.ts', 'start', '--forever', 'true', ...argsParsed._],
                 cwd: ENV.PWD
             });
             const data = encoder.encode(JSON.stringify({
@@ -100,7 +100,7 @@ const runner = {
 
         }
     },
-    restart() {
+    restart(killed) {
         let pidJSON: any = {};
         try {
             const data = readFileSync('./pid.json');
@@ -109,15 +109,19 @@ const runner = {
         } catch (error) {
 
         }
-        const data = encoder.encode(JSON.stringify({
-            ...pidJSON,
-            rid: undefined,
-            pid: undefined,
-        }));
-        writeFileSync('pid.json', data);
-        run({
-            args: ['kill', '-9', `${pidJSON.pid}`]
-        });
+        if (!killed) {
+            run({
+                args: ['kill', '-9', `${pidJSON.pid}`]
+            });
+        } else {
+            const data = encoder.encode(JSON.stringify({
+                ...pidJSON,
+                rid: undefined,
+                pid: undefined,
+            }));
+            writeFileSync('pid.json', data);
+            this.start();
+        }
     }
 };
 
