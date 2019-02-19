@@ -4,6 +4,7 @@ Some modules for [Deno](https://deno.land/).
 
 - dpm - deno package manager, install global command for deno.
 - dcc - deno cache clean, reloading deps when next running.
+- denohup - deno nohup, like pm2 of node.
 
 ## dpm
 
