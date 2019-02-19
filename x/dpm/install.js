@@ -7,7 +7,7 @@ const ENV = env();
 
 const encoder = new TextEncoder();
 const data = encoder.encode(`#!/bin/sh
-deno ${url} "$@"
+deno -A ${url} "$@"
 `);
 
 const dvmFilePath = `${ENV.HOME}/.deno/bin/${name}`;
