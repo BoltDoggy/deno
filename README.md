@@ -9,7 +9,7 @@ Some modules for [Deno](https://deno.land/).
 
 ## dpm `deprecated`
 
-> !!!deprecated!!!, use `deno install` instead of
+> !!! deprecated !!!, use `deno install` instead of
 
 deno package manager, install global command for deno.
 
