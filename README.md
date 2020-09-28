@@ -7,7 +7,9 @@ Some modules for [Deno](https://deno.land/).
 - denohup - deno nohup, like pm2 of node.
 - derver - deno simple server, create a ts file, and respond your body, just like a static server.
 
-## dpm
+## dpm `deprecated`
+
+> !!!deprecated!!!, use `deno install` instead of
 
 deno package manager, install global command for deno.
 
